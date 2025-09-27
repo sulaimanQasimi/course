@@ -108,6 +108,47 @@
                 </div>
             @endif
 
+            <!-- Enrolled Students -->
+            @if($course->activeEnrollments->count() > 0)
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-900">Enrolled Students</h2>
+                        <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
+                            {{ $course->activeEnrollments->count() }} {{ Str::plural('student', $course->activeEnrollments->count()) }}
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach($course->activeEnrollments as $enrollment)
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                    {{ substr($enrollment->user->name, 0, 1) }}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-medium text-gray-900 truncate">{{ $enrollment->user->name }}</p>
+                                    <p class="text-sm text-gray-500">
+                                        Enrolled {{ $enrollment->enrolled_at ? $enrollment->enrolled_at->format('M j, Y') : 'Recently' }}
+                                    </p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        {{ ucfirst($enrollment->status) }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    @if($course->activeEnrollments->count() > 6)
+                        <div class="mt-4 text-center">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                View All Students ({{ $course->activeEnrollments->count() }})
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
             <!-- Syllabus -->
             @if($course->activeSyllabi->count() > 0)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -143,6 +184,27 @@
                 <div class="text-center mb-6">
                     <div class="text-3xl font-bold text-gray-900 mb-2">${{ number_format($course->fee, 2) }}</div>
                     <p class="text-gray-600">One-time payment</p>
+                </div>
+
+                <!-- Enrollment Statistics -->
+                <div class="mb-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900">{{ $course->activeEnrollments->count() }}</div>
+                            <div class="text-sm text-gray-500">Enrolled</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900">{{ $course->available_spots ?? '∞' }}</div>
+                            <div class="text-sm text-gray-500">Available</div>
+                        </div>
+                    </div>
+                    
+                    @if($course->capacity)
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div class="bg-blue-600 h-2 rounded-full" 
+                                 style="width: {{ $course->activeEnrollments->count() > 0 ? min(100, ($course->activeEnrollments->count() / $course->capacity) * 100) : 0 }}%"></div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Course Status -->

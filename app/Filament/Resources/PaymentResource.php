@@ -10,7 +10,7 @@ use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
