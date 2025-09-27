@@ -44,9 +44,9 @@ class CourseResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Course Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255),
@@ -72,7 +72,7 @@ class CourseResource extends Resource
                     ->columns(2),
 
                 Section::make('Pricing & Capacity')
-                    ->schema([
+                    ->components([
                         TextInput::make('fee')
                             ->numeric()
                             ->prefix('$')
@@ -85,7 +85,7 @@ class CourseResource extends Resource
                     ->columns(2),
 
                 Section::make('Schedule')
-                    ->schema([
+                    ->components([
                         DatePicker::make('start_date')
                             ->native(false),
                         DatePicker::make('end_date')
@@ -95,7 +95,7 @@ class CourseResource extends Resource
                     ->columns(2),
 
                 Section::make('Status & Visibility')
-                    ->schema([
+                    ->components([
                         Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
@@ -120,7 +120,7 @@ class CourseResource extends Resource
                     ->columns(3),
 
                 Section::make('Teachers')
-                    ->schema([
+                    ->components([
                         Select::make('teachers')
                             ->relationship('teachers', 'name')
                             ->multiple()

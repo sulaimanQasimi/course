@@ -43,9 +43,9 @@ class PayrollRecordResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Payroll Information')
-                    ->schema([
+                    ->components([
                         Select::make('teacher_id')
                             ->label('Teacher')
                             ->relationship('teacher', 'name')
@@ -72,7 +72,7 @@ class PayrollRecordResource extends Resource
                     ->columns(2),
 
                 Section::make('Financial Details')
-                    ->schema([
+                    ->components([
                         TextInput::make('gross_amount')
                             ->numeric()
                             ->prefix('$')
@@ -91,7 +91,7 @@ class PayrollRecordResource extends Resource
                     ->columns(3),
 
                 Section::make('Payment Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('payment_method')
                             ->maxLength(255),
                         TextInput::make('payment_reference')
@@ -102,7 +102,7 @@ class PayrollRecordResource extends Resource
                     ->columns(3),
 
                 Section::make('Additional Information')
-                    ->schema([
+                    ->components([
                         Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpanFull(),

@@ -40,7 +40,7 @@ class CategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),

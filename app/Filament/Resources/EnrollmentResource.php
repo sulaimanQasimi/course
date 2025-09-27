@@ -44,9 +44,9 @@ class EnrollmentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Enrollment Information')
-                    ->schema([
+                    ->components([
                         Select::make('course_id')
                             ->label('Course')
                             ->relationship('course', 'title')
@@ -73,7 +73,7 @@ class EnrollmentResource extends Resource
                     ->columns(2),
 
                 Section::make('Payment Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('amount_paid')
                             ->numeric()
                             ->prefix('$')
@@ -88,7 +88,7 @@ class EnrollmentResource extends Resource
                     ->columns(3),
 
                 Section::make('Dates')
-                    ->schema([
+                    ->components([
                         DateTimePicker::make('enrolled_at')
                             ->native(false),
                         DateTimePicker::make('cancelled_at')

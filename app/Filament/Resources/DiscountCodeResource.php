@@ -42,9 +42,9 @@ class DiscountCodeResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Discount Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('code')
                             ->required()
                             ->maxLength(255)
@@ -73,7 +73,7 @@ class DiscountCodeResource extends Resource
                     ->columns(2),
 
                 Section::make('Usage Limits')
-                    ->schema([
+                    ->components([
                         TextInput::make('minimum_amount')
                             ->numeric()
                             ->prefix('$')
@@ -89,7 +89,7 @@ class DiscountCodeResource extends Resource
                     ->columns(3),
 
                 Section::make('Validity Period')
-                    ->schema([
+                    ->components([
                         DatePicker::make('starts_at')
                             ->native(false)
                             ->helperText('Start date (leave empty for immediate availability)'),
@@ -103,7 +103,7 @@ class DiscountCodeResource extends Resource
                     ->columns(3),
 
                 Section::make('Applicable Courses')
-                    ->schema([
+                    ->components([
                         Textarea::make('applicable_courses')
                             ->helperText('JSON array of course IDs (leave empty for all courses)')
                             ->columnSpanFull(),

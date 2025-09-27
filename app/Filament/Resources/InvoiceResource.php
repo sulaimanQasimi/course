@@ -46,9 +46,9 @@ class InvoiceResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Invoice Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('invoice_number')
                             ->required()
                             ->maxLength(255)
@@ -80,7 +80,7 @@ class InvoiceResource extends Resource
                     ->columns(2),
 
                 Section::make('Financial Details')
-                    ->schema([
+                    ->components([
                         TextInput::make('subtotal')
                             ->numeric()
                             ->prefix('$')
@@ -106,7 +106,7 @@ class InvoiceResource extends Resource
                     ->columns(5),
 
                 Section::make('Status & Dates')
-                    ->schema([
+                    ->components([
                         Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
@@ -127,7 +127,7 @@ class InvoiceResource extends Resource
                     ->columns(4),
 
                 Section::make('Additional Information')
-                    ->schema([
+                    ->components([
                         Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpanFull(),

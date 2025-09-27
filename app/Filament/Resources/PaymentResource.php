@@ -45,9 +45,9 @@ class PaymentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Payment Information')
-                    ->schema([
+                    ->components([
                         Select::make('enrollment_id')
                             ->label('Enrollment')
                             ->relationship('enrollment', 'id')
@@ -77,7 +77,7 @@ class PaymentResource extends Resource
                     ->columns(2),
 
                 Section::make('Gateway Information')
-                    ->schema([
+                    ->components([
                         Select::make('gateway')
                             ->options([
                                 'stripe' => 'Stripe',
@@ -104,7 +104,7 @@ class PaymentResource extends Resource
                     ->columns(2),
 
                 Section::make('Refund Information')
-                    ->schema([
+                    ->components([
                         TextInput::make('refunded_amount')
                             ->numeric()
                             ->prefix('$')
@@ -118,7 +118,7 @@ class PaymentResource extends Resource
                     ->columns(2),
 
                 Section::make('Timestamps')
-                    ->schema([
+                    ->components([
                         DateTimePicker::make('captured_at')
                             ->native(false),
                     ])
