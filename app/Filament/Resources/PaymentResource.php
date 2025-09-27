@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,9 +26,9 @@ class PaymentResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Payment Information')
                     ->schema([

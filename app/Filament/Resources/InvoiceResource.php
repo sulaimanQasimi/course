@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Payment;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,9 +27,9 @@ class InvoiceResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Invoice Information')
                     ->schema([

@@ -101,10 +101,6 @@ class Invoice extends Model
         return $this->status === 'paid';
     }
 
-    public function getIsOverdueAttribute()
-    {
-        return $this->status === 'overdue';
-    }
 
     public function getIsCancelledAttribute()
     {
