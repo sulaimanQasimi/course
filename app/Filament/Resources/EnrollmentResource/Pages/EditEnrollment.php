@@ -4,6 +4,10 @@ namespace App\Filament\Resources\EnrollmentResource\Pages;
 
 use App\Filament\Resources\EnrollmentResource;
 use Filament\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditEnrollment extends EditRecord
@@ -13,8 +17,8 @@ class EditEnrollment extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }
