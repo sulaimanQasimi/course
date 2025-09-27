@@ -8,6 +8,16 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -34,22 +44,22 @@ class PayrollRecordResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Payroll Information')
+                Section::make('Payroll Information')
                     ->schema([
-                        Forms\Components\Select::make('teacher_id')
+                        Select::make('teacher_id')
                             ->label('Teacher')
                             ->relationship('teacher', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\DatePicker::make('period_start')
+                        DatePicker::make('period_start')
                             ->required()
                             ->native(false),
-                        Forms\Components\DatePicker::make('period_end')
+                        DatePicker::make('period_end')
                             ->required()
                             ->native(false)
                             ->after('period_start'),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
                                 'generated' => 'Generated',
@@ -61,18 +71,18 @@ class PayrollRecordResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Financial Details')
+                Section::make('Financial Details')
                     ->schema([
-                        Forms\Components\TextInput::make('gross_amount')
+                        TextInput::make('gross_amount')
                             ->numeric()
                             ->prefix('$')
                             ->required()
                             ->default(0),
-                        Forms\Components\TextInput::make('deductions')
+                        TextInput::make('deductions')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
-                        Forms\Components\TextInput::make('net_amount')
+                        TextInput::make('net_amount')
                             ->numeric()
                             ->prefix('$')
                             ->required()
@@ -80,23 +90,23 @@ class PayrollRecordResource extends Resource
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Payment Information')
+                Section::make('Payment Information')
                     ->schema([
-                        Forms\Components\TextInput::make('payment_method')
+                        TextInput::make('payment_method')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('payment_reference')
+                        TextInput::make('payment_reference')
                             ->maxLength(255),
-                        Forms\Components\DateTimePicker::make('paid_at')
+                        DateTimePicker::make('paid_at')
                             ->native(false),
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Additional Information')
+                Section::make('Additional Information')
                     ->schema([
-                        Forms\Components\Textarea::make('notes')
+                        Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\DateTimePicker::make('generated_at')
+                        DateTimePicker::make('generated_at')
                             ->native(false)
                             ->columnSpanFull(),
                     ]),

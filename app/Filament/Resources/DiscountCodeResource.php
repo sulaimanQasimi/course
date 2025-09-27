@@ -7,6 +7,16 @@ use App\Models\DiscountCode;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -33,20 +43,20 @@ class DiscountCodeResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Discount Information')
+                Section::make('Discount Information')
                     ->schema([
-                        Forms\Components\TextInput::make('code')
+                        TextInput::make('code')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Unique discount code (e.g., SAVE20)'),
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\Select::make('type')
+                        Select::make('type')
                             ->options([
                                 'percentage' => 'Percentage',
                                 'fixed' => 'Fixed Amount',
@@ -54,7 +64,7 @@ class DiscountCodeResource extends Resource
                             ->required()
                             ->default('percentage')
                             ->live(),
-                        Forms\Components\TextInput::make('value')
+                        TextInput::make('value')
                             ->numeric()
                             ->required()
                             ->prefix(fn (Forms\Get $get): string => $get('type') === 'percentage' ? '' : '$')
@@ -62,39 +72,39 @@ class DiscountCodeResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Usage Limits')
+                Section::make('Usage Limits')
                     ->schema([
-                        Forms\Components\TextInput::make('minimum_amount')
+                        TextInput::make('minimum_amount')
                             ->numeric()
                             ->prefix('$')
                             ->helperText('Minimum order amount to use this code'),
-                        Forms\Components\TextInput::make('usage_limit')
+                        TextInput::make('usage_limit')
                             ->numeric()
                             ->helperText('Total usage limit (leave empty for unlimited)'),
-                        Forms\Components\TextInput::make('usage_limit_per_user')
+                        TextInput::make('usage_limit_per_user')
                             ->numeric()
                             ->default(1)
                             ->helperText('Usage limit per user'),
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Validity Period')
+                Section::make('Validity Period')
                     ->schema([
-                        Forms\Components\DatePicker::make('starts_at')
+                        DatePicker::make('starts_at')
                             ->native(false)
                             ->helperText('Start date (leave empty for immediate availability)'),
-                        Forms\Components\DatePicker::make('expires_at')
+                        DatePicker::make('expires_at')
                             ->native(false)
                             ->helperText('Expiry date (leave empty for no expiry)'),
-                        Forms\Components\Toggle::make('is_active')
+                        Toggle::make('is_active')
                             ->default(true)
                             ->helperText('Whether this discount code is active'),
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Applicable Courses')
+                Section::make('Applicable Courses')
                     ->schema([
-                        Forms\Components\Textarea::make('applicable_courses')
+                        Textarea::make('applicable_courses')
                             ->helperText('JSON array of course IDs (leave empty for all courses)')
                             ->columnSpanFull(),
                     ]),

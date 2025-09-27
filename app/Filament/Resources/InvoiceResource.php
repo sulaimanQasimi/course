@@ -11,6 +11,16 @@ use App\Models\Payment;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -37,31 +47,31 @@ class InvoiceResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Invoice Information')
+                Section::make('Invoice Information')
                     ->schema([
-                        Forms\Components\TextInput::make('invoice_number')
+                        TextInput::make('invoice_number')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
-                        Forms\Components\Select::make('enrollment_id')
+                        Select::make('enrollment_id')
                             ->label('Enrollment')
                             ->relationship('enrollment', 'id')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->label('Student')
                             ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('course_id')
+                        Select::make('course_id')
                             ->label('Course')
                             ->relationship('course', 'title')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('payment_id')
+                        Select::make('payment_id')
                             ->label('Payment')
                             ->relationship('payment', 'id')
                             ->searchable()
@@ -69,35 +79,35 @@ class InvoiceResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Financial Details')
+                Section::make('Financial Details')
                     ->schema([
-                        Forms\Components\TextInput::make('subtotal')
+                        TextInput::make('subtotal')
                             ->numeric()
                             ->prefix('$')
                             ->required()
                             ->default(0),
-                        Forms\Components\TextInput::make('discount_amount')
+                        TextInput::make('discount_amount')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
-                        Forms\Components\TextInput::make('tax_amount')
+                        TextInput::make('tax_amount')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
-                        Forms\Components\TextInput::make('total_amount')
+                        TextInput::make('total_amount')
                             ->numeric()
                             ->prefix('$')
                             ->required()
                             ->default(0),
-                        Forms\Components\TextInput::make('currency')
+                        TextInput::make('currency')
                             ->default('USD')
                             ->maxLength(3),
                     ])
                     ->columns(5),
 
-                Forms\Components\Section::make('Status & Dates')
+                Section::make('Status & Dates')
                     ->schema([
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
                                 'sent' => 'Sent',
@@ -107,21 +117,21 @@ class InvoiceResource extends Resource
                             ])
                             ->required()
                             ->default('draft'),
-                        Forms\Components\DateTimePicker::make('sent_at')
+                        DateTimePicker::make('sent_at')
                             ->native(false),
-                        Forms\Components\DateTimePicker::make('paid_at')
+                        DateTimePicker::make('paid_at')
                             ->native(false),
-                        Forms\Components\DateTimePicker::make('due_date')
+                        DateTimePicker::make('due_date')
                             ->native(false),
                     ])
                     ->columns(4),
 
-                Forms\Components\Section::make('Additional Information')
+                Section::make('Additional Information')
                     ->schema([
-                        Forms\Components\Textarea::make('notes')
+                        Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\FileUpload::make('pdf_path')
+                        FileUpload::make('pdf_path')
                             ->label('PDF File')
                             ->acceptedFileTypes(['application/pdf'])
                             ->directory('invoices')

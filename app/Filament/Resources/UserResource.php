@@ -7,6 +7,16 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -34,17 +44,17 @@ class UserResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('User Information')
+                Section::make('User Information')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->email()
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
-                        Forms\Components\TextInput::make('password')
+                        TextInput::make('password')
                             ->password()
                             ->required(fn (string $context): bool => $context === 'create')
                             ->minLength(8)
@@ -53,9 +63,9 @@ class UserResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Roles & Permissions')
+                Section::make('Roles & Permissions')
                     ->schema([
-                        Forms\Components\Select::make('roles')
+                        Select::make('roles')
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->preload()

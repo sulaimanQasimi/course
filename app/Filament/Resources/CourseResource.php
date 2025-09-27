@@ -9,6 +9,16 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -35,58 +45,58 @@ class CourseResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Course Information')
+                Section::make('Course Information')
                     ->schema([
-                        Forms\Components\TextInput::make('title')
+                        TextInput::make('title')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('code')
+                        TextInput::make('code')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Unique course code (e.g., CS101)'),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\Select::make('category_id')
+                        Select::make('category_id')
                             ->label('Category')
                             ->relationship('category', 'name')
                             ->required()
                             ->createOptionForm([
-                                Forms\Components\TextInput::make('name')
+                                TextInput::make('name')
                                     ->required(),
-                                Forms\Components\TextInput::make('slug')
+                                TextInput::make('slug')
                                     ->required(),
                             ]),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Pricing & Capacity')
+                Section::make('Pricing & Capacity')
                     ->schema([
-                        Forms\Components\TextInput::make('fee')
+                        TextInput::make('fee')
                             ->numeric()
                             ->prefix('$')
                             ->required()
                             ->default(0),
-                        Forms\Components\TextInput::make('capacity')
+                        TextInput::make('capacity')
                             ->numeric()
                             ->helperText('Leave empty for unlimited capacity'),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Schedule')
+                Section::make('Schedule')
                     ->schema([
-                        Forms\Components\DatePicker::make('start_date')
+                        DatePicker::make('start_date')
                             ->native(false),
-                        Forms\Components\DatePicker::make('end_date')
+                        DatePicker::make('end_date')
                             ->native(false)
                             ->after('start_date'),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Status & Visibility')
+                Section::make('Status & Visibility')
                     ->schema([
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
                                 'published' => 'Published',
@@ -94,14 +104,14 @@ class CourseResource extends Resource
                             ])
                             ->default('draft')
                             ->required(),
-                        Forms\Components\Select::make('visibility')
+                        Select::make('visibility')
                             ->options([
                                 'public' => 'Public',
                                 'private' => 'Private',
                             ])
                             ->default('public')
                             ->required(),
-                        Forms\Components\FileUpload::make('thumbnail_path')
+                        FileUpload::make('thumbnail_path')
                             ->label('Thumbnail')
                             ->image()
                             ->directory('course-thumbnails')
@@ -109,9 +119,9 @@ class CourseResource extends Resource
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Teachers')
+                Section::make('Teachers')
                     ->schema([
-                        Forms\Components\Select::make('teachers')
+                        Select::make('teachers')
                             ->relationship('teachers', 'name')
                             ->multiple()
                             ->preload()
@@ -142,7 +152,7 @@ class CourseResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->badge()
-                    ->color(fn (Category $category): string => $category->color),
+                    ->color(fn ($record): string => $record->category?->color ?? '#6B7280'),
                 Tables\Columns\TextColumn::make('fee')
                     ->money('USD')
                     ->sortable(),

@@ -8,6 +8,16 @@ use App\Models\Course;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -35,21 +45,21 @@ class EnrollmentResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Enrollment Information')
+                Section::make('Enrollment Information')
                     ->schema([
-                        Forms\Components\Select::make('course_id')
+                        Select::make('course_id')
                             ->label('Course')
                             ->relationship('course', 'title')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->label('Student')
                             ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'enrolled' => 'Enrolled',
                                 'pending' => 'Pending',
@@ -62,28 +72,28 @@ class EnrollmentResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Payment Information')
+                Section::make('Payment Information')
                     ->schema([
-                        Forms\Components\TextInput::make('amount_paid')
+                        TextInput::make('amount_paid')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
-                        Forms\Components\TextInput::make('discount_code')
+                        TextInput::make('discount_code')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('discount_amount')
+                        TextInput::make('discount_amount')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
                     ])
                     ->columns(3),
 
-                Forms\Components\Section::make('Dates')
+                Section::make('Dates')
                     ->schema([
-                        Forms\Components\DateTimePicker::make('enrolled_at')
+                        DateTimePicker::make('enrolled_at')
                             ->native(false),
-                        Forms\Components\DateTimePicker::make('cancelled_at')
+                        DateTimePicker::make('cancelled_at')
                             ->native(false),
-                        Forms\Components\Textarea::make('cancellation_reason')
+                        Textarea::make('cancellation_reason')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])

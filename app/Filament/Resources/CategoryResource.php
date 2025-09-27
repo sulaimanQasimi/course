@@ -7,6 +7,16 @@ use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -31,20 +41,20 @@ class CategoryResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\ColorPicker::make('color')
+                ColorPicker::make('color')
                     ->default('#3B82F6'),
-                Forms\Components\Toggle::make('is_active')
+                Toggle::make('is_active')
                     ->default(true),
-                Forms\Components\TextInput::make('sort_order')
+                TextInput::make('sort_order')
                     ->numeric()
                     ->default(0),
             ]);

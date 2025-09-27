@@ -10,6 +10,16 @@ use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -36,39 +46,39 @@ class PaymentResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Payment Information')
+                Section::make('Payment Information')
                     ->schema([
-                        Forms\Components\Select::make('enrollment_id')
+                        Select::make('enrollment_id')
                             ->label('Enrollment')
                             ->relationship('enrollment', 'id')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->label('Student')
                             ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('course_id')
+                        Select::make('course_id')
                             ->label('Course')
                             ->relationship('course', 'title')
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\TextInput::make('amount')
+                        TextInput::make('amount')
                             ->numeric()
                             ->prefix('$')
                             ->required(),
-                        Forms\Components\TextInput::make('currency')
+                        TextInput::make('currency')
                             ->default('USD')
                             ->maxLength(3),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Gateway Information')
+                Section::make('Gateway Information')
                     ->schema([
-                        Forms\Components\Select::make('gateway')
+                        Select::make('gateway')
                             ->options([
                                 'stripe' => 'Stripe',
                                 'paypal' => 'PayPal',
@@ -76,11 +86,11 @@ class PaymentResource extends Resource
                             ])
                             ->default('stripe')
                             ->required(),
-                        Forms\Components\TextInput::make('gateway_payment_id')
+                        TextInput::make('gateway_payment_id')
                             ->label('Gateway Payment ID'),
-                        Forms\Components\TextInput::make('gateway_transaction_id')
+                        TextInput::make('gateway_transaction_id')
                             ->label('Gateway Transaction ID'),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'pending' => 'Pending',
                                 'completed' => 'Completed',
@@ -93,23 +103,23 @@ class PaymentResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Refund Information')
+                Section::make('Refund Information')
                     ->schema([
-                        Forms\Components\TextInput::make('refunded_amount')
+                        TextInput::make('refunded_amount')
                             ->numeric()
                             ->prefix('$')
                             ->default(0),
-                        Forms\Components\DateTimePicker::make('refunded_at')
+                        DateTimePicker::make('refunded_at')
                             ->native(false),
-                        Forms\Components\Textarea::make('failure_reason')
+                        Textarea::make('failure_reason')
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Timestamps')
+                Section::make('Timestamps')
                     ->schema([
-                        Forms\Components\DateTimePicker::make('captured_at')
+                        DateTimePicker::make('captured_at')
                             ->native(false),
                     ])
                     ->columns(1),
