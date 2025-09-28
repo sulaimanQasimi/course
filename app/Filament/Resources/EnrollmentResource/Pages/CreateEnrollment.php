@@ -14,7 +14,17 @@ class CreateEnrollment extends CreateRecord
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
         try {
-            return Enrollment::create($data);
+            $enrollment = Enrollment::create($data);
+            
+            // If a discount code was used, increment its usage count
+            if (!empty($data['discount_code'])) {
+                $discountCode = \App\Models\DiscountCode::where('code', $data['discount_code'])->first();
+                if ($discountCode) {
+                    $discountCode->incrementUsage();
+                }
+            }
+            
+            return $enrollment;
         } catch (QueryException $e) {
             if ($e->getCode() == 23000) { // Integrity constraint violation
                 $this->halt();

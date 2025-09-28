@@ -118,7 +118,7 @@ class DiscountCode extends Model
             return $this->value . '%';
         }
         
-        return '$' . number_format($this->value, 2);
+        return '$' . number_format((float) $this->value, 2);
     }
 
     public function calculateDiscount($amount)
@@ -138,14 +138,14 @@ class DiscountCode extends Model
         return min($this->value, $amount); // Fixed amount, but can't exceed the total
     }
 
-    public function canBeUsedBy($userId)
+    public function canBeUsedBy($studentId)
     {
         if (!$this->is_available) {
             return false;
         }
 
-        // Check if user has already used this code the maximum number of times
-        $userUsageCount = Enrollment::where('user_id', $userId)
+        // Check if student has already used this code the maximum number of times
+        $userUsageCount = Enrollment::where('student_id', $studentId)
             ->where('discount_code', $this->code)
             ->count();
 

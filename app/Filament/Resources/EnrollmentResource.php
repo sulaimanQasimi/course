@@ -122,13 +122,104 @@ class EnrollmentResource extends Resource
                         TextInput::make('discount_code')
                             ->label('Discount Code')
                             ->maxLength(255)
-                            ->helperText('Optional discount code applied'),
+                            ->helperText('Enter discount code to apply (optional)')
+                            ->live()
+                            ->suffixAction(
+                                \Filament\Actions\Action::make('view_codes')
+                                    ->label('View Available Codes')
+                                    ->icon('heroicon-o-eye')
+                                    ->modalHeading('Available Discount Codes')
+                                    ->modalContent(function () {
+                                        $codes = \App\Models\DiscountCode::available()->get();
+                                        if ($codes->isEmpty()) {
+                                            return new \Illuminate\Support\HtmlString('<p>No discount codes are currently available.</p>');
+                                        }
+                                        
+                                        $html = '<div class="space-y-2">';
+                                        foreach ($codes as $code) {
+                                            $html .= '<div class="border p-3 rounded">';
+                                            $html .= '<strong>' . $code->code . '</strong> - ' . $code->name . '<br>';
+                                            $html .= '<small class="text-gray-600">' . $code->formatted_value . ' off';
+                                            if ($code->minimum_amount) {
+                                                $html .= ' (min. $' . number_format((float) $code->minimum_amount, 2) . ')';
+                                            }
+                                            $html .= '</small>';
+                                            $html .= '</div>';
+                                        }
+                                        $html .= '</div>';
+                                        
+                                        return new \Illuminate\Support\HtmlString($html);
+                                    })
+                                    ->modalSubmitAction(false)
+                                    ->modalCancelActionLabel('Close')
+                            )
+                            ->rules([
+                                function () {
+                                    return function (string $attribute, $value, \Closure $fail) {
+                                        if (empty($value)) {
+                                            return; // Optional field
+                                        }
+                                        
+                                        $discountCode = \App\Models\DiscountCode::where('code', $value)->first();
+                                        
+                                        if (!$discountCode) {
+                                            $fail('The discount code "' . $value . '" does not exist.');
+                                            return;
+                                        }
+                                        
+                                        if (!$discountCode->is_active) {
+                                            $fail('The discount code "' . $value . '" is not active.');
+                                            return;
+                                        }
+                                        
+                                        if (!$discountCode->is_available) {
+                                            $fail('The discount code "' . $value . '" is no longer available.');
+                                            return;
+                                        }
+                                        
+                                        // Check if code has expired
+                                        if ($discountCode->is_expired) {
+                                            $fail('The discount code "' . $value . '" has expired.');
+                                            return;
+                                        }
+                                        
+                                        // Check if code hasn't started yet
+                                        if ($discountCode->is_not_started) {
+                                            $fail('The discount code "' . $value . '" is not yet active.');
+                                            return;
+                                        }
+                                    };
+                                }
+                            ])
+                            ->afterStateUpdated(function ($state, $get, $set) {
+                                if ($state) {
+                                    $discountCode = \App\Models\DiscountCode::where('code', $state)
+                                        ->where('is_active', true)
+                                        ->first();
+                                    
+                                    if ($discountCode) {
+                                        $courseFee = $get('course_fee') ?: 0;
+                                        $discountAmount = $discountCode->calculateDiscount($courseFee);
+                                        $set('discount_amount', $discountAmount);
+                                        
+                                        if ($discountAmount > 0) {
+                                            $set('amount_paid', $courseFee - $discountAmount);
+                                        }
+                                    } else {
+                                        $set('discount_amount', 0);
+                                    }
+                                } else {
+                                    $set('discount_amount', 0);
+                                    $set('amount_paid', $get('course_fee') ?: 0);
+                                }
+                            }),
                         TextInput::make('discount_amount')
                             ->label('Discount Amount')
                             ->numeric()
                             ->prefix('$')
-                            ->default(0)
-                            ->helperText('Amount of discount applied'),
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->helperText('Automatically calculated based on discount code'),
                     ])
                     ->columns(2),
 
