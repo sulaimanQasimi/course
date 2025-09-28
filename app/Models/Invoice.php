@@ -117,22 +117,22 @@ class Invoice extends Model
 
     public function getFormattedSubtotalAttribute()
     {
-        return '$' . number_format($this->subtotal, 2);
+        return '$' . number_format((float) $this->subtotal, 2);
     }
 
     public function getFormattedDiscountAmountAttribute()
     {
-        return '$' . number_format($this->discount_amount, 2);
+        return '$' . number_format((float) $this->discount_amount, 2);
     }
 
     public function getFormattedTaxAmountAttribute()
     {
-        return '$' . number_format($this->tax_amount, 2);
+        return '$' . number_format((float) $this->tax_amount, 2);
     }
 
     public function getFormattedTotalAmountAttribute()
     {
-        return '$' . number_format($this->total_amount, 2);
+        return '$' . number_format((float) $this->total_amount, 2);
     }
 
     public function getIsOverdueAttribute()

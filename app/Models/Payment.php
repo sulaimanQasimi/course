@@ -111,6 +111,6 @@ class Payment extends Model
 
     public function getFormattedAmountAttribute()
     {
-        return number_format($this->amount, 2) . ' ' . strtoupper($this->currency);
+        return number_format((float) $this->amount, 2) . ' ' . strtoupper($this->currency);
     }
 }
