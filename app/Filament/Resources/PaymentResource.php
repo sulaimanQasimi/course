@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PaymentResource\Pages;
 use App\Models\Payment;
 use App\Models\Enrollment;
-use App\Models\User;
+use App\Models\Student;
 use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -54,9 +54,9 @@ class PaymentResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Select::make('user_id')
+                        Select::make('student_id')
                             ->label('Student')
-                            ->relationship('user', 'name')
+                            ->relationship('student', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
@@ -130,7 +130,7 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('student.name')
                     ->label('Student')
                     ->searchable()
                     ->sortable(),

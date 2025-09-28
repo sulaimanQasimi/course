@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CourseResource\Pages;
 use App\Models\Course;
 use App\Models\Category;
-use App\Models\User;
+use App\Models\Teacher;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Schema;

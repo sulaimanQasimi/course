@@ -11,7 +11,7 @@ class Enrollment extends Model
 {
     protected $fillable = [
         'course_id',
-        'user_id',
+        'student_id',
         'status',
         'enrolled_at',
         'cancelled_at',
@@ -35,9 +35,9 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function user(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function payments(): HasMany

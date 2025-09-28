@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Models\Invoice;
 use App\Models\Enrollment;
-use App\Models\User;
+use App\Models\Student;
 use App\Models\Course;
 use App\Models\Payment;
 use Filament\Forms;
@@ -59,9 +59,9 @@ class InvoiceResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Select::make('user_id')
+                        Select::make('student_id')
                             ->label('Student')
-                            ->relationship('user', 'name')
+                            ->relationship('student', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
@@ -150,7 +150,7 @@ class InvoiceResource extends Resource
                     ->sortable()
                     ->weight('bold')
                     ->copyable(),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('student.name')
                     ->label('Student')
                     ->searchable()
                     ->sortable(),

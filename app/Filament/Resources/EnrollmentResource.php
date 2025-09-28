@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EnrollmentResource\Pages;
 use App\Models\Enrollment;
 use App\Models\Course;
-use App\Models\User;
+use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Components\Section;
@@ -53,9 +53,9 @@ class EnrollmentResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Select::make('user_id')
+                        Select::make('student_id')
                             ->label('Student')
-                            ->relationship('user', 'name')
+                            ->relationship('student', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
@@ -105,7 +105,7 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('student.name')
                     ->label('Student')
                     ->searchable()
                     ->sortable(),

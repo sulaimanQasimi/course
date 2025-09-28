@@ -9,7 +9,7 @@ class Payment extends Model
 {
     protected $fillable = [
         'enrollment_id',
-        'user_id',
+        'student_id',
         'course_id',
         'amount',
         'currency',
@@ -39,9 +39,9 @@ class Payment extends Model
         return $this->belongsTo(Enrollment::class);
     }
 
-    public function user(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function course(): BelongsTo

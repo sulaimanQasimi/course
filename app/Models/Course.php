@@ -23,7 +23,7 @@ class Course extends Model
         'status',
         'visibility',
         'thumbnail_path',
-        'created_by',
+        'teacher_id',
         'metadata',
     ];
 
@@ -41,12 +41,12 @@ class Course extends Model
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     public function teachers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'course_teachers')
+        return $this->belongsToMany(Teacher::class, 'course_teachers')
             ->withPivot(['share_percentage', 'role', 'is_active', 'assigned_at'])
             ->withTimestamps();
     }
