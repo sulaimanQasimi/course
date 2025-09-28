@@ -13,126 +13,128 @@
         
         body {
             font-family: 'Times New Roman', serif;
-            line-height: 1.4;
+            line-height: 1.2;
             color: #000;
             background: #fff;
-            font-size: 12pt;
+            font-size: 10pt;
+            margin: 0;
+            padding: 0;
         }
         
         .invoice-container {
-            max-width: 8.5in;
+            max-width: 8.27in;
             margin: 0 auto;
             background: white;
-            border: 2px solid #000;
+            border: 1px solid #000;
         }
         
         .invoice-header {
             background: #000;
             color: white;
-            padding: 30px;
+            padding: 15px;
             text-align: center;
-            border-bottom: 3px solid #000;
+            border-bottom: 1px solid #000;
         }
         
         .company-logo {
-            font-size: 28pt;
+            font-size: 18pt;
             font-weight: bold;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
         }
         
         .company-tagline {
-            font-size: 14pt;
+            font-size: 10pt;
             opacity: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         
         .invoice-title {
-            font-size: 36pt;
+            font-size: 24pt;
             font-weight: bold;
-            margin: 20px 0;
-            letter-spacing: 3px;
+            margin: 10px 0;
+            letter-spacing: 2px;
         }
         
         .invoice-number {
-            font-size: 18pt;
+            font-size: 14pt;
             font-weight: bold;
             background: #fff;
             color: #000;
-            padding: 10px 20px;
-            border: 2px solid #fff;
+            padding: 5px 10px;
+            border: 1px solid #fff;
             display: inline-block;
         }
         
         .invoice-content {
-            padding: 40px;
+            padding: 20px;
         }
         
         .invoice-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            margin-bottom: 50px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         
         .company-info, .client-info {
-            border: 2px solid #000;
-            padding: 25px;
+            border: 1px solid #000;
+            padding: 12px;
             background: #f9f9f9;
         }
         
         .company-info h3, .client-info h3 {
             color: #000;
-            margin-bottom: 20px;
-            font-size: 16pt;
+            margin-bottom: 8px;
+            font-size: 11pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
         }
         
         .company-info p, .client-info p {
-            margin-bottom: 8px;
+            margin-bottom: 3px;
             color: #000;
-            font-size: 12pt;
+            font-size: 9pt;
         }
         
         .company-info strong, .client-info strong {
             font-weight: bold;
-            font-size: 14pt;
+            font-size: 10pt;
         }
         
         .invoice-details {
-            border: 2px solid #000;
-            padding: 25px;
-            margin-bottom: 40px;
+            border: 1px solid #000;
+            padding: 12px;
+            margin-bottom: 15px;
             background: #f9f9f9;
         }
         
         .invoice-details h3 {
             color: #000;
-            margin-bottom: 20px;
-            font-size: 16pt;
+            margin-bottom: 8px;
+            font-size: 11pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
         }
         
         .details-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 8px;
         }
         
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 4px 0;
             border-bottom: 1px solid #ccc;
-            font-size: 12pt;
+            font-size: 9pt;
         }
         
         .detail-label {
@@ -147,50 +149,50 @@
         }
         
         .amounts-section {
-            border: 2px solid #000;
-            padding: 25px;
-            margin-bottom: 40px;
+            border: 1px solid #000;
+            padding: 12px;
+            margin-bottom: 15px;
             background: #f9f9f9;
         }
         
         .amounts-section h3 {
             color: #000;
-            margin-bottom: 20px;
-            font-size: 16pt;
+            margin-bottom: 8px;
+            font-size: 11pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
         }
         
         .amount-row {
             display: flex;
             justify-content: space-between;
-            padding: 15px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #ccc;
-            font-size: 12pt;
+            font-size: 9pt;
         }
         
         .amount-row.total {
-            font-size: 16pt;
+            font-size: 11pt;
             font-weight: bold;
             color: #000;
-            border-top: 3px solid #000;
-            border-bottom: 3px solid #000;
-            margin-top: 15px;
-            padding: 20px 0;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            margin-top: 8px;
+            padding: 8px 0;
             background: #f0f0f0;
         }
         
         .status-badge {
             display: inline-block;
-            padding: 8px 16px;
-            border: 2px solid #000;
-            font-size: 10pt;
+            padding: 3px 6px;
+            border: 1px solid #000;
+            font-size: 8pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         
         .status-paid {
@@ -226,35 +228,35 @@
         .footer {
             background: #000;
             color: white;
-            padding: 30px 40px;
+            padding: 10px 15px;
             text-align: center;
-            border-top: 3px solid #000;
+            border-top: 1px solid #000;
         }
         
         .footer h4 {
-            font-size: 14pt;
-            margin-bottom: 10px;
+            font-size: 10pt;
+            margin-bottom: 5px;
             font-weight: bold;
         }
         
         .footer p {
-            font-size: 11pt;
-            margin-bottom: 5px;
+            font-size: 8pt;
+            margin-bottom: 2px;
         }
         
         .print-button {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             background: #000;
             color: white;
-            border: 2px solid #000;
-            padding: 15px 30px;
+            border: 1px solid #000;
+            padding: 8px 15px;
             cursor: pointer;
-            font-size: 14pt;
+            font-size: 10pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             transition: all 0.3s ease;
             z-index: 1000;
         }
@@ -269,8 +271,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 72pt;
-            color: rgba(0,0,0,0.05);
+            font-size: 48pt;
+            color: rgba(0,0,0,0.03);
             z-index: -1;
             pointer-events: none;
         }
@@ -313,7 +315,7 @@
     <div class="watermark">OFFICIAL INVOICE</div>
     
     <button class="print-button" onclick="window.print()">
-        🖨️ PRINT INVOICE
+        🖨️ PRINT
     </button>
     
     <div class="invoice-container">
