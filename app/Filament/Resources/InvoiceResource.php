@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\CreateAction;
@@ -218,6 +219,12 @@ class InvoiceResource extends Resource
                     ->label('Overdue'),
             ])
             ->actions([
+                Action::make('print')
+                    ->label('Print')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn ($record) => route('invoices.print', $record))
+                    ->openUrlInNewTab(),
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
