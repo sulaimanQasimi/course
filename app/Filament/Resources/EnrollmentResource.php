@@ -6,6 +6,7 @@ use App\Filament\Resources\EnrollmentResource\Pages;
 use App\Models\Enrollment;
 use App\Models\Course;
 use App\Models\Student;
+use App\Rules\UniqueEnrollment;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Schemas\Components\Section;
@@ -46,6 +47,7 @@ class EnrollmentResource extends Resource
         return $schema
             ->components([
                 Section::make('Enrollment Information')
+                    ->description('Each student can only be enrolled once per course. If a student is already enrolled, please select a different course or student.')
                     ->components([
                         Select::make('course_id')
                             ->label('Course')
@@ -53,6 +55,16 @@ class EnrollmentResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->rules([
+                                function () {
+                                    return function (string $attribute, $value, \Closure $fail) {
+                                        $studentId = request()->input('data.student_id');
+                                        $enrollmentId = request()->route('record'); // For editing
+                                        $rule = new UniqueEnrollment($studentId, $enrollmentId);
+                                        $rule->validate($attribute, $value, $fail);
+                                    };
+                                }
+                            ])
                             ->afterStateUpdated(function ($state, $get, $set) {
                                 if ($state) {
                                     $course = \App\Models\Course::find($state);
@@ -66,7 +78,17 @@ class EnrollmentResource extends Resource
                             ->relationship('student', 'name')
                             ->required()
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->rules([
+                                function () {
+                                    return function (string $attribute, $value, \Closure $fail) {
+                                        $courseId = request()->input('data.course_id');
+                                        $enrollmentId = request()->route('record'); // For editing
+                                        $rule = new UniqueEnrollment($value, $enrollmentId);
+                                        $rule->validate($attribute, $courseId, $fail);
+                                    };
+                                }
+                            ]),
                         Select::make('status')
                             ->options([
                                 'enrolled' => 'Enrolled',
