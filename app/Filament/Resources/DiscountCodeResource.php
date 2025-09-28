@@ -17,6 +17,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -67,8 +68,8 @@ class DiscountCodeResource extends Resource
                         TextInput::make('value')
                             ->numeric()
                             ->required()
-                            ->prefix(fn (Forms\Get $get): string => $get('type') === 'percentage' ? '' : '$')
-                            ->suffix(fn (Forms\Get $get): string => $get('type') === 'percentage' ? '%' : ''),
+                            ->prefix(fn (Get $get): string => $get('type') === 'percentage' ? '' : '$')
+                            ->suffix(fn (Get $get): string => $get('type') === 'percentage' ? '%' : ''),
                     ])
                     ->columns(2),
 

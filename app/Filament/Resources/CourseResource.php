@@ -119,14 +119,27 @@ class CourseResource extends Resource
                     ])
                     ->columns(3),
 
-                Section::make('Teachers')
+                Section::make('Course Creator')
+                    ->description('Select the primary teacher who created this course')
+                    ->components([
+                        Select::make('teacher_id')
+                            ->label('Primary Teacher')
+                            ->relationship('creator', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->helperText('The teacher who created and owns this course'),
+                    ]),
+
+                Section::make('Additional Teachers')
+                    ->description('Select additional teachers who will teach this course')
                     ->components([
                         Select::make('teachers')
                             ->relationship('teachers', 'name')
                             ->multiple()
                             ->preload()
                             ->searchable()
-                            ->helperText('Select teachers for this course'),
+                            ->helperText('Select additional teachers for this course (optional)'),
                     ]),
             ]);
     }
@@ -175,9 +188,14 @@ class CourseResource extends Resource
                         'public' => 'success',
                         'private' => 'warning',
                     }),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('Primary Teacher')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('bold'),
                 Tables\Columns\TextColumn::make('teachers_count')
                     ->counts('teachers')
-                    ->label('Teachers'),
+                    ->label('Additional Teachers'),
                 Tables\Columns\TextColumn::make('enrollments_count')
                     ->counts('enrollments')
                     ->label('Enrollments'),
