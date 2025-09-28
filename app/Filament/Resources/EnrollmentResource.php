@@ -52,7 +52,15 @@ class EnrollmentResource extends Resource
                             ->relationship('course', 'title')
                             ->required()
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->afterStateUpdated(function ($state, $get, $set) {
+                                if ($state) {
+                                    $course = \App\Models\Course::find($state);
+                                    if ($course) {
+                                        $set('course_fee', $course->fee);
+                                    }
+                                }
+                            }),
                         Select::make('student_id')
                             ->label('Student')
                             ->relationship('student', 'name')
@@ -74,18 +82,33 @@ class EnrollmentResource extends Resource
 
                 Section::make('Payment Information')
                     ->components([
+                        TextInput::make('course_fee')
+                            ->label('Course Fee')
+                            ->numeric()
+                            ->prefix('$')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->afterStateUpdated(function ($state, $get, $set) {
+                                // This will be populated by the course selection
+                            }),
                         TextInput::make('amount_paid')
+                            ->label('Amount Paid')
                             ->numeric()
                             ->prefix('$')
-                            ->default(0),
+                            ->default(0)
+                            ->helperText('Amount already paid by the student'),
                         TextInput::make('discount_code')
-                            ->maxLength(255),
+                            ->label('Discount Code')
+                            ->maxLength(255)
+                            ->helperText('Optional discount code applied'),
                         TextInput::make('discount_amount')
+                            ->label('Discount Amount')
                             ->numeric()
                             ->prefix('$')
-                            ->default(0),
+                            ->default(0)
+                            ->helperText('Amount of discount applied'),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make('Dates')
                     ->components([
@@ -127,9 +150,21 @@ class EnrollmentResource extends Resource
                         'cancelled' => 'danger',
                         'completed' => 'success',
                     }),
+                Tables\Columns\TextColumn::make('course.fee')
+                    ->label('Course Fee')
+                    ->money('USD')
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('amount_paid')
+                    ->label('Amount Paid')
                     ->money('USD')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('remaining_amount')
+                    ->label('Remaining')
+                    ->money('USD')
+                    ->sortable()
+                    ->toggleable()
+                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
                 Tables\Columns\TextColumn::make('discount_code')
                     ->searchable()
                     ->toggleable(),
@@ -196,5 +231,17 @@ class EnrollmentResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getFormData($record = null): array
+    {
+        $data = parent::getFormData($record);
+        
+        // If editing an existing enrollment, populate the course fee
+        if ($record && $record->course) {
+            $data['course_fee'] = $record->course->fee;
+        }
+        
+        return $data;
     }
 }
